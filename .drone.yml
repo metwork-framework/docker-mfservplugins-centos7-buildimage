@@ -23,13 +23,7 @@ pipeline:
       - /root:/root
     commands:
       - HASH_BEFORE=`docker images -q metwork/mfservplugins-centos7-buildimage:${DRONE_BRANCH}`
-      - if test "${DRONE_BRANCH}" = "master"; then
-          docker build -t metwork/mfservplugins-centos7-buildimage:master -t metwork/mfservplugins-centos7-buildimage:latest --build-arg BRANCH=master --build-arg CACHEBUST=${DRONE_BUILD_NUMBER} .;
-        elif test "${DRONE_BRANCH}" = "integration"; then
-          docker build -t metwork/mfservplugins-centos7-buildimage:integration --build-arg BRANCH=integration --build-arg CACHEBUST=${DRONE_BUILD_NUMBER} .;
-        else
-          docker build -t metwork/mfservplugins-centos7-buildimage:${DRONE_BRANCH} --build-arg BRANCH=master --build-arg CACHEBUST=${DRONE_BUILD_NUMBER} .;
-        fi
+      - docker build -t metwork/mfservplugins-centos7-buildimage:${DRONE_BRANCH} --build-arg BRANCH=${DRONE_BRANCH} --build-arg CACHEBUST=${DRONE_BUILD_NUMBER} .
       - HASH_AFTER=`docker images -q metwork/mfservplugins-centos7-buildimage:${DRONE_BRANCH}`
       - if test "$${HASH_BEFORE}" = "$${HASH_AFTER}"; then
           touch .drone_downstream_bypass;
@@ -45,4 +39,4 @@ pipeline:
       event: push
 
 
-branches: [ master, integration, ci_*, pci_* ]
+branches: [ master, integration, release_* ]
