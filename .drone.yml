@@ -1,3 +1,5 @@
+# automatically generated from https://github.com/metwork-framework/resources/blob/master/cookiecutter/%7B%7Bcookiecutter.repo%7D%7D/docker-mfxxx-yyy-buildimage_drone.yml)
+
 
     
     
@@ -41,33 +43,6 @@ pipeline:
         fi
     when:
       event: push
-  trigger_master:
-    <<: *trigger_common
-    repositories:
 
-      - metwork-framework/mfserv@master
-      - metwork-framework/mfdata@master
-      - metwork-framework/mfbase@master
-      - metwork-framework/mfadmin@master
-      - metwork-framework/mfsysmon@master
-
-    when:
-      status: success
-      event: push
-      branch: master
-  trigger_integration:
-    <<: *trigger_common
-    repositories:
-
-      - metwork-framework/mfserv@integration
-      - metwork-framework/mfdata@integration
-      - metwork-framework/mfbase@integration
-      - metwork-framework/mfadmin@integration
-      - metwork-framework/mfsysmon@integration
-
-    when:
-      status: success
-      event: push
-      branch: integration
 
 branches: [ master, integration, ci_*, pci_* ]
